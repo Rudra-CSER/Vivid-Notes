@@ -64,6 +64,10 @@ app.delete("/notes/:id", async (req, res) => {
   res.status(200).json({ message: "Notes deleted successfully" })
 })
 
+// Must be LAST route in app.js
+app.get("/{*splat}", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "public", "dist", "index.html"))
+})
 
 
  module.exports = app
