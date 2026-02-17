@@ -1,13 +1,20 @@
 const express = require("express")
 const notesModel = require("./models/notes.model")
 const cors = require("cors")
+const path = require("path")
+
+
+
 
 // for cross origin resource sharing - to allow frontend and backend to communicate with each other 
 // by default, frontend and backend are on different ports, so we need to allow them to communicate with each other   
 
 const app = express()
+
+
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.join(__dirname, "..", "public", "dist")))
 // Serve the production build output (Vite) placed in Backend/public/dist
 
 
@@ -56,6 +63,7 @@ app.delete("/notes/:id", async (req, res) => {
   await notesModel.findByIdAndDelete(id)
   res.status(200).json({ message: "Notes deleted successfully" })
 })
+
 
 
  module.exports = app
