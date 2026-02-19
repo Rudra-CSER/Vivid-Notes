@@ -64,9 +64,13 @@ app.delete("/notes/:id", async (req, res) => {
   res.status(200).json({ message: "Notes deleted successfully" })
 })
 
-// Must be LAST route in app.js
+// SPA fallback: serve index.html for any unmatched GET (must be last route)
+// Express 5 requires a named wildcard; "*" alone throws PathError
 app.get("/{*splat}", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "public", "dist", "index.html"))
+  const indexPath = path.join(__dirname, "..", "public", "dist", "index.html")
+  res.sendFile(indexPath, (err) => {
+    if (err) res.status(404).send("Not found. Build the frontend (npm run build) and ensure public/dist exists.")
+  })
 })
 
 
