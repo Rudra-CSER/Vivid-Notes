@@ -2,23 +2,24 @@
 
 Use these settings in the Render dashboard so the app builds and runs correctly.
 
+**Important:** This must be a **Web Service** (Node), not a Static Site. Do not set Publish Directory.
+
 ## Root directory
 
-- **Root Directory:** Leave **empty** (use repo root), or set to the folder that contains both `Backend` and `Frontend` (e.g. if your repo root is `uvc`, use empty so paths like `../Frontend` work from Backend).
+- **Root Directory:** `Backend` (so Render runs all commands from the Backend folder).
 
-If your Render service is created from the **Backend** folder only (no Frontend in the same repo), set:
-- **Root Directory:** `Backend`
+## Build & start (must match this exactly)
 
-Then change the build command to build the frontend from wherever it lives (e.g. a separate repo or subpath).
+With **Root Directory** = `Backend`:
 
-## Build & start (repo with Backend + Frontend)
+| Setting          | Value |
+|------------------|--------|
+| **Build Command**  | `npm install && npm run build` |
+| **Start Command**  | `npm start` |
+| **Publish Directory** | Leave **blank** (required for Web Services) |
 
-- **Build Command:** `cd Backend && npm install && npm run build`
-- **Start Command:** `cd Backend && npm start`
-
-If **Root Directory** is set to `Backend`:
-- **Build Command:** `npm install && npm run build`
-- **Start Command:** `npm start`
+- Do **not** use `npm run dev` as Build or Start — that runs the dev server and is not for production ([Render docs](https://render.com/docs/troubleshooting-deploys)).
+- If you already commit `Backend/public/dist` to GitHub, you can use Build Command: `npm install` only (skip `npm run build`).
 
 ## Environment variables
 
